@@ -1,2 +1,0 @@
-Run the Picsaver.py script from terminal using:
-	~$python Picsaver.py INSTAGRAM_USERNAME INSTAGRAM_PASSWORD
