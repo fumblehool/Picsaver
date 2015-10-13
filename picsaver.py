@@ -11,8 +11,8 @@ if os.path.exists('images') == False:
     os.makedirs('images')
 path = path + '/images/'
 
-def download_all_imgs(user_id):
-    url = "https://api.instagram.com/v1/users/" + user_id + "/media/recent/?access_token="
+def download_all_imgs():
+    url = "https://api.instagram.com/v1/users/self/media/recent/?access_token="
     r = requests.get(url+secrets.access_token)
     data = r.json()
     items = len(data['data'])
@@ -32,10 +32,10 @@ def download_all_imgs(user_id):
 
         print "Saving image "+ img_name
         print "Image number " + str(z) + "."
-        with open(path + img_name + ".jpg",'wb') as f:
+        with open(str(z)+'.jpg','wb') as f:
             shutil.copyfileobj(r.raw,f)
-        print "Done."
-        z+=1
+        z=z+1
+
 
 def download_all_imgs_user(name):
     download_all_imgs(get_user_id(name))
@@ -47,7 +47,4 @@ def get_user_id(name):
     user_id = d['data'][0]['id']
     return user_id
 
-
-# function calls.
-#download_all_imgs_user(raw_input("Enter the Username "))
 #download_all_imgs()
