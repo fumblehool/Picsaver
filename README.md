@@ -8,4 +8,3 @@ It will save the images in a new directory named "images" with the caption of im
 
 NOTE- it needs some access codes which are placed in secrets.py file and which are not public.
 
-At this time it can only download a person's recent 20 images.
