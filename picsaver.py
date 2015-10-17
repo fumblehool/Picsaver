@@ -3,6 +3,7 @@ import secrets
 import requests
 import shutil
 import os
+import datetime
 
 auth_url = "https://api.instagram.com/oauth/authorize/?client_id="+ secrets.client_id + "&redirect_uri=http://www.example.com&response_type=token"
 path = os.getcwd()
@@ -10,6 +11,7 @@ path = os.getcwd()
 if os.path.exists('images') == False:
     os.makedirs('images')
 path = path + '/images/'
+
 
 def download_all_imgs(user_id):
     url = "https://api.instagram.com/v1/users/" +user_id+ "/media/recent/?access_token="
@@ -23,12 +25,7 @@ def download_all_imgs(user_id):
     for i in range(items):
         link = data['data'][i]['images']['standard_resolution']['url']
         r = requests.get(link, stream = True)
-        img_name =data['data'][i]['caption']
-        if img_name == None:
-            img_name = str(y)
-            y=y+1
-        else:
-            img_name = img_name =data['data'][i]['caption']['text']
+        img_name = datetime.datetime.fromtimestamp(int(data['data'][i]['created_time'])).strftime('%Y-%m-%d %H:%M:%S') + '.jpg'
 
         print "Saving image "+ img_name
         print "Image number " + str(z) + "."
@@ -40,12 +37,14 @@ def download_all_imgs(user_id):
 def download_all_imgs_user(name):
     download_all_imgs(get_user_id(name))
 
+
 def get_user_id(name):
     u = "https://api.instagram.com/v1/users/search?q="+ name +"&access_token="
     r_ = requests.get(u+secrets.access_token)
     d = r_.json()
     user_id = d['data'][0]['id']
     return user_id
+
 
 #download_all_imgs()
 download_all_imgs_user(raw_input("Enter Your Username: "))
