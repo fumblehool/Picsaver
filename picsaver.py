@@ -1,7 +1,6 @@
 import sys
 import secrets
 import requests
-import shutil
 import os
 import datetime
 
@@ -42,12 +41,13 @@ def download_all_imgs(name):
             r = requests.get(link, stream=True)
             img_name = datetime.datetime.fromtimestamp(
                         int(data['data'][i]['created_time'])
-                        ).strftime('%Y-%m-%d %H:%M:%S') + '.jpg'
+                        ).strftime('%Y-%m-%d %H:%M:%S') + ".jpg"
 
             print "Saving image " + img_name
             print "Image number " + str(z) + "."
-            with open(path + img_name + '.jpg', 'wb') as f:
-                shutil.copyfileobj(r.raw, f)
+            with open(path + img_name, 'wb') as f:
+                for chunks in r:
+                    f.write(chunks)
             z += 1
         if len(data['pagination']) is 0:
             break
