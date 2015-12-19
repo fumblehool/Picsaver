@@ -6,7 +6,7 @@ import datetime
 
 auth_url = ("https://api.instagram.com/oauth/authorize/?client_id=%s"
             "&redirect_uri=http://www.example.com"
-            "&response_type=toke" % secrets.client_id)
+            "&response_type=token" % secrets.client_id)
 path = os.getcwd()
 
 if os.path.exists('images') is False:
